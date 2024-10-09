@@ -73,22 +73,22 @@
                 <h1 class="site-title">loli.ie</h1>
                 <div>
                     <a href="https://blog.shiina.fun" class="btn btn-primary btn-custom" target="_blank">
-                        <i class="fas fa-blog"></i> 博客
+                        <i class="fas fa-blog"></i> blog
                     </a>
                     <a href="https://i.moe.uy" class="btn btn-success btn-custom" target="_blank">
-                        <i class="fas fa-sticky-note"></i> 笔记
+                        <i class="fas fa-sticky-note"></i> note
                     </a>
                     <a href="https://nz.loli.priv.at" class="btn btn-info btn-custom" target="_blank">
-                        <i class="fas fa-search"></i> 探针
+                        <i class="fas fa-search"></i> probe
                     </a>
                     <a href="https://uptime.400096.xyz" class="btn btn-warning btn-custom" target="_blank">
-                        <i class="fas fa-cloud"></i> 云服务监控
+                        <i class="fas fa-cloud"></i> status
                     </a>
                 </div>
             </div>
         </div>
     </div>
-    <div id="visitor-info">加载中...</div>
+    <div id="visitor-info">Loading...</div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://fastly.jsdelivr.net/gh/nova1751/live2d-api@latest/jsdelivr/random/autoload.js"></script>
     <script>
@@ -114,11 +114,11 @@
             .then(data => {
                 const asn = data.asn;
                 const asnOrg = data.org;
-                document.getElementById('visitor-info').innerHTML = `您的IP：${data.ip} | ASN：${asn} (${asnOrg})`;
+                document.getElementById('visitor-info').innerHTML = `Your IP：${data.ip} | ASN：${asn} (${asnOrg})`;
             })
             .catch(error => {
                 console.error('错误:', error);
-                document.getElementById('visitor-info').innerHTML = '无法获取访问者信息';
+                document.getElementById('visitor-info').innerHTML = 'Unable to fetch...';
             });
     </script>
 </body>
