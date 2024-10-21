@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <script defer src="https://a.loli.za.org/script.js" data-website-id="8b510f2c-3931-4b0e-90a3-ff0b2d5ce5b3"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>loli.ie</title>
@@ -33,9 +34,13 @@
             .then(response => response.json())
             .then(data => {
                 const asn = data.asn;
+                const asnName = data.org;
+                const location = `${data.city}, ${data.region}, ${data.country_name}`;
                 document.getElementById('info').innerHTML = `
                     <p>您的IP地址：${data.ip}</p>
                     <p>您的ASN：${asn}</p>
+                    <p>ASN名称：${asnName}</p>
+                    <p>IP位置：${location}</p>
                 `;
             })
             .catch(error => {
