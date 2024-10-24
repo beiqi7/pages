@@ -25,22 +25,16 @@
     </div>
 
     <script>
-        fetch('https://api.ipify.org?format=json')
+        fetch('https://api.ip.sb/geoip/')
             .then(response => response.json())
             .then(data => {
                 const ip = data.ip;
-                return fetch(`https://ipapi.co/${ip}/json/`);
-            })
-            .then(response => response.json())
-            .then(data => {
-                const asn = data.asn;
-                const asnName = data.org;
-                const location = `${data.city}, ${data.region}, ${data.country_name}`;
+                const location = `${data.city}, ${data.country}`;
+                const isp = data.isp;
                 document.getElementById('info').innerHTML = `
-                    <p>您的IP地址：${data.ip}</p>
-                    <p>您的ASN：${asn}</p>
-                    <p>ASN名称：${asnName}</p>
+                    <p>您的IP地址：${ip}</p>
                     <p>IP位置：${location}</p>
+                    <p>ISP：${isp}</p>
                 `;
             })
             .catch(error => {
