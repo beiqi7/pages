@@ -1,29 +1,64 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <script defer src="https://a.loli.za.org/script.js" data-website-id="8b510f2c-3931-4b0e-90a3-ff0b2d5ce5b3"></script>
+    <!-- 元信息 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>loli.ie</title>
+    <!-- 引入 Google 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <!-- 内联样式 -->
     <style>
+        /* 全局样式 */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'ZCOOL KuaiLe', cursive; /* 二次元风格字体 */
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background-color: #ffd200; /* 主色调 */
+            background-image: url('your-anime-background.jpg'); /* 二次元背景图片 */
+            background-size: cover;
+            background-position: center;
+            color: #fff; /* 文字颜色 */
         }
+        /* GIF 容器样式 */
         #gif-container {
-            margin-bottom: 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #gif-container img {
+            max-width: 80%;
+            border: 5px solid #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        /* 信息展示区域样式 */
+        #info {
+            background: rgba(255, 255, 255, 0.8); /* 半透明背景 */
+            margin: 30px auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 15px;
+            color: #333; /* 文字颜色 */
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        #info p {
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
+    <!-- GIF 图片 -->
     <div id="gif-container">
         <img src="./joan.gif" alt="joan">
     </div>
+    <!-- 访问者信息 -->
     <div id="info">
         <p>正在加载访问者信息...</p>
     </div>
 
+    <!-- 访问者信息脚本 -->
     <script>
         fetch('https://api.ip.sb/geoip/')
             .then(response => response.json())
@@ -31,9 +66,10 @@
                 const ip = data.ip;
                 const location = `${data.city}, ${data.country}`;
                 const isp = data.isp;
+                // 更新信息内容
                 document.getElementById('info').innerHTML = `
-                    <p>您的IP地址：${ip}</p>
-                    <p>IP位置：${location}</p>
+                    <p>您的 IP 地址：${ip}</p>
+                    <p>IP 位置：${location}</p>
                     <p>ISP：${isp}</p>
                 `;
             })
