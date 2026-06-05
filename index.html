@@ -1,186 +1,285 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <script defer src="https://a.loli.za.org/script.js" data-website-id="8b510f2c-3931-4b0e-90a3-ff0b2d5ce5b3"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>loli.ie</title>
+    
+    <!-- 统计代码 -->
+    <script defer src="https://a.loli.za.org/script.js" data-website-id="06bcbdfb-a1ab-4d48-bec3-401e4db3621c"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --main-color: #ffd200;
+            --main-accent: #ffd200;
+            --text-main: #333333;
+            --text-muted: #666666;
+            /* 明亮的半透明毛玻璃背景 */
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: rgba(0, 0, 0, 0.1);
         }
         
-        body {
-            font-family: 'ZCOOL KuaiLe', cursive;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            min-height: 100vh;
-            background-color: var(--main-color);
-            color: #333;
-            position: relative;
-            transition: background-image 0.5s ease;
         }
 
-        body::before {
-            content: '';
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            position: relative;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* 动态背景层 */
+        #bg-layer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 210, 0, 0.7);
-            z-index: -1;
+            z-index: -2;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 1s ease-in-out;
+            opacity: 0;
         }
 
-        #gif-container {
-            text-align: center;
-            padding: 50px 0 30px;
-            position: relative;
-        }
-
-        #gif-container img {
-            max-width: 80%;
-            border: 5px solid #fff;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease;
-        }
-
-        #gif-container img:hover {
-            transform: scale(1.02);
-        }
-
-        #info {
-            background: rgba(255, 255, 255, 0.9);
-            margin: 20px auto;
-            padding: 25px;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            backdrop-filter: blur(5px);
-            animation: fadeIn 1s ease;
-        }
-
-        #info p {
-            margin: 15px 0;
-            font-size: 18px;
-            line-height: 1.6;
-            position: relative;
-            padding-left: 20px;
-        }
-
-        #info p::before {
-            content: '⭐';
-            position: absolute;
+        /* 轻微变暗的遮罩，保证白色半透明卡片清晰可见 */
+        #bg-overlay {
+            position: fixed;
+            top: 0;
             left: 0;
-            color: var(--main-color);
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: rgba(0, 0, 0, 0.15);
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* 主视觉区（GIF + 标题） */
+        .hero-section {
+            text-align: center;
+            animation: fadeInDown 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            z-index: 10;
+            margin-bottom: 30px;
         }
 
+        /* 核心动图 */
+        .hero-section img {
+            max-width: 100%;
+            width: 400px;
+            border-radius: 20px;
+            /* 给动图也加一点白色边框，呼应半透明主题 */
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 15px 35px var(--glass-shadow);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 20px;
+        }
+
+        .hero-section img:hover {
+            transform: scale(1.03) translateY(-5px);
+        }
+
+        /* 标题 */
+        .site-title {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 36px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* 博客按钮 - 半透明毛玻璃质感 */
+        .blog-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            text-decoration: none;
+            padding: 14px 35px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px var(--glass-shadow);
+        }
+
+        .blog-btn:hover {
+            background: var(--main-accent);
+            border-color: #ffeaa7;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 210, 0, 0.4);
+            color: #000;
+        }
+
+        /* 附加信息区域 - 半透明长条卡片 */
+        .visitor-info-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 15px 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            max-width: 900px;
+            box-shadow: 0 10px 30px var(--glass-shadow);
+            animation: fadeInUp 1s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            z-index: 10;
+        }
+
+        /* 内部数据项 */
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .info-item .icon {
+            font-size: 16px;
+        }
+
+        /* 分隔符 */
+        .divider {
+            width: 1px;
+            height: 16px;
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+
+        /* 动画 */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 手机端适配 */
         @media (max-width: 768px) {
-            #info {
-                width: 90%;
-                padding: 15px;
+            .hero-section img {
+                width: 85%;
+                max-width: 350px;
             }
-            
-            #info p {
-                font-size: 16px;
+            .visitor-info-glass {
+                flex-direction: column;
+                gap: 12px;
+                padding: 20px;
+                border-radius: 15px;
+                text-align: center;
+            }
+            .divider {
+                display: none; /* 手机端隐藏分隔竖线 */
             }
         }
     </style>
 </head>
 <body>
-    <div id="gif-container">
+    <!-- 背景层 -->
+    <div id="bg-layer"></div>
+    <div id="bg-overlay"></div>
+
+    <!-- 视觉主体：GIF & 博客入口 -->
+    <div class="hero-section">
         <img src="./joan.gif" alt="joan">
+        <div class="site-title">loli.ie</div>
+        <a href="https://blog.shiina.fun" class="blog-btn" target="_blank">
+            🌸 访问我的博客
+        </a>
     </div>
-    <div id="info">
-        <p>正在加载访问者信息...</p>
+
+    <!-- 附加内容：半透明访问者信息条 -->
+    <div id="visitor-info" class="visitor-info-glass">
+        <div class="info-item">正在加载您的网络信息...</div>
     </div>
 
     <script>
-        // 检测设备类型和屏幕尺寸
+        // 检测设备和屏幕
         function getDeviceInfo() {
             const ua = navigator.userAgent;
-            const width = window.innerWidth || document.documentElement.clientWidth;
-            const height = window.innerHeight || document.documentElement.clientHeight;
-            const pixelRatio = window.devicePixelRatio || 1;
-
-            // 根据设备像素比和屏幕尺寸计算最适合的图片尺寸
-            let imgWidth = Math.round(width * pixelRatio);
-            let imgHeight = Math.round(height * pixelRatio);
-
-            // 限制最大尺寸，避免请求过大的图片
-            imgWidth = Math.min(imgWidth, 2000);
-            imgHeight = Math.min(imgHeight, 2000);
-
+            const width = window.innerWidth;
+            const height = window.innerHeight;
             return {
                 isMobile: /Mobile|Android|iPhone|iPad|iPod/i.test(ua),
-                width: imgWidth,
-                height: imgHeight
+                resolution: `${width} × ${height}`
             };
         }
 
-        // 设置随机背景图
+        // 随机背景
         function setRandomBackground() {
-            const device = getDeviceInfo();
-            // 使用 Lorem Picsum 服务，添加模糊效果和图片尺寸优化
-            const randomId = Math.floor(Math.random() * 1000); // 随机图片 ID
-            const blurAmount = 3; // 轻微模糊效果
-            const imageUrl = `https://picsum.photos/id/${randomId}/${device.width}/${device.height}?blur=${blurAmount}`;
+            const bgLayer = document.getElementById('bg-layer');
+            const randomId = Math.floor(Math.random() * 1000); 
+            // 模糊处理，凸显前面的半透明白色卡片
+            const imageUrl = `https://picsum.photos/id/${randomId}/1920/1080?blur=4`;
 
-            // 预加载图片
             const img = new Image();
             img.onload = function() {
-                document.body.style.backgroundImage = `url(${imageUrl})`;
-                document.body.style.backgroundSize = 'cover';
-                document.body.style.backgroundPosition = 'center';
-                document.body.style.backgroundAttachment = 'fixed';
+                bgLayer.style.backgroundImage = `url(${imageUrl})`;
+                bgLayer.style.opacity = '1';
             };
             img.onerror = function() {
-                console.error('背景图片加载失败');
-                document.body.style.backgroundColor = '#ffd200';
+                bgLayer.style.backgroundColor = '#ffd200';
+                bgLayer.style.opacity = '1';
             };
-            img.src = imageUrl;
+            
+            bgLayer.style.opacity = '0';
+            setTimeout(() => { img.src = imageUrl; }, 500);
         }
 
-        // 获取访问者信息
+        // 渲染单条信息
+        function createInfoItem(icon, text) {
+            return `<div class="info-item"><span class="icon">${icon}</span><span>${text}</span></div>`;
+        }
+
+        // 获取并渲染访客信息
         fetch('https://api.ip.sb/geoip/')
             .then(response => response.json())
             .then(data => {
-                const ip = data.ip;
-                const location = `${data.city}, ${data.country}`;
-                const isp = data.isp;
-                const deviceInfo = getDeviceInfo();
+                const ip = data.ip || '未知 IP';
+                const location = [data.city, data.country].filter(Boolean).join(', ') || '未知位置';
+                const isp = data.isp || '未知网络';
+                const device = getDeviceInfo();
+                const deviceType = device.isMobile ? '移动端' : '桌面端';
+                const div = '<div class="divider"></div>'; // 分隔竖线
                 
-                document.getElementById('info').innerHTML = `
-                    <p>您的 IP 地址：${ip}</p>
-                    <p>IP 位置：${location}</p>
-                    <p>ISP：${isp}</p>
-                    <p>设备类型：${deviceInfo.isMobile ? '移动设备' : '桌面设备'}</p>
-                    <p>显示分辨率：${deviceInfo.width}x${deviceInfo.height}</p>
-                `;
+                setTimeout(() => {
+                    document.getElementById('visitor-info').innerHTML = 
+                        createInfoItem('🌐', ip) + div +
+                        createInfoItem('📍', location) + div +
+                        createInfoItem('🏢', isp) + div +
+                        createInfoItem('⚙️', `${deviceType} (${device.resolution})`);
+                }, 400);
             })
-            .catch(error => {
-                console.error('获取信息时出错：', error);
-                document.getElementById('info').innerHTML = '<p>无法获取访问者信息</p>';
+            .catch(() => {
+                document.getElementById('visitor-info').innerHTML = createInfoItem('⚠️', '网络信息获取受限');
             });
 
-        // 初始化背景图片
+        // 初始化
         setRandomBackground();
-
-        // 添加定期更换背景的功能（可选，每5分钟更换一次）
         setInterval(setRandomBackground, 5 * 60 * 1000);
     </script>
 </body>
